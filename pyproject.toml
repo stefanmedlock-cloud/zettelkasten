@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zettelkasten"
+version = "0.1.0"
+authors = [
+    { name="stefanmedlock-cloud", email="stefanmedlock-cloud@users.noreply.github.com" }
+]
+description = "Eine leichtgewichtige, serverlose Key-Value-Datenbank"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio"]
