@@ -5,3 +5,9 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 ## Features
 - In-Memory Key-Value Speicherung.
 - Extrem einfache API.
+
+
+## Schnellanleitung
+```python
+# Wird im Laufe der Entwicklung befüllt
+```
