@@ -8,3 +8,5 @@ zettelkasten.db
 
 *.db-journal
 *.bak
+
+.idea/
