@@ -11,3 +11,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 ```python
 # Wird im Laufe der Entwicklung befüllt
 ```
+
+
+## Systemanforderungen
+- Python 3.8 oder höher
