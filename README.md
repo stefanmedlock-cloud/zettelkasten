@@ -15,3 +15,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 
 ## Systemanforderungen
 - Python 3.8 oder höher
+
+
+## SQLite-Unterstützung
+Nutzen Sie SQLite für extrem zuverlässige, persistente Datensätze.
