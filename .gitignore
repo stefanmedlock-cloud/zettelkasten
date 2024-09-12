@@ -10,3 +10,5 @@ zettelkasten.db
 *.bak
 
 .idea/
+
+*.log
