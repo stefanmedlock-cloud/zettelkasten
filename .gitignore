@@ -12,3 +12,5 @@ zettelkasten.db
 .idea/
 
 *.log
+
+.vscode/
