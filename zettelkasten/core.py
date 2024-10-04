@@ -6,6 +6,7 @@ class Zettelkasten:
         self._data = {}
 
     def set(self, key: str, value):
+        """Schreibt den Wert für einen Schlüssel in die DB."""
         self._data[key] = value
 
     def get(self, key: str, default=None):
