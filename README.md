@@ -4,7 +4,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 
 ## Features
 - In-Memory Key-Value Speicherung.
-- Extrem einfache API.
+- Extrem einfache API mit intelligenten Standardwerten.
 
 
 ## Schnellanleitung
