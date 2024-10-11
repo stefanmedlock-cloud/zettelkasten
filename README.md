@@ -19,3 +19,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 
 ## SQLite-Unterstützung
 Nutzen Sie SQLite für extrem zuverlässige, persistente Datensätze.
+
+
+## Async API
+Unterstützt asynchrone Programmiermuster vollständig.
