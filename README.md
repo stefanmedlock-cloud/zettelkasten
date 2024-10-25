@@ -1,6 +1,6 @@
 # Zettelkasten 🗃️
 
-Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für Python mit TTL-Caching und Persistenz-Unterstützung.
+Eine extrem leichtgewichtige, schnelle und serverlose, schnelle Key-Value-Datenbank für Python mit TTL-Caching und Persistenz-Unterstützung.
 
 ## Features
 - In-Memory Key-Value Speicherung.
