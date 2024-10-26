@@ -20,4 +20,3 @@ class Zettelkasten:
 
     def keys(self):
         return list(self._data.keys())
-
