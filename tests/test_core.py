@@ -15,3 +15,16 @@ def test_temporary_persistence(tmp_path):
     db = Zettelkasten(path)
     db.set('temp', 999)
     assert os.path.exists(path)
+
+
+def test_key_override():
+    db = Zettelkasten()
+    db.set('a', 1)
+    db.set('a', 2)
+    assert db.get('a') == 2
+
+
+def test_ttl_large():
+    db = Zettelkasten()
+    db.set('lang', 'wert', ttl=10000)
+    assert db.get('lang') == 'wert'

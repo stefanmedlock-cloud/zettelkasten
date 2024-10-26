@@ -1,10 +1,10 @@
 # Zettelkasten 🗃️
 
-Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für Python mit TTL-Caching und Persistenz-Unterstützung.
+Eine extrem leichtgewichtige, schnelle und serverlose, schnelle Key-Value-Datenbank für Python mit TTL-Caching und Persistenz-Unterstützung.
 
 ## Features
 - In-Memory Key-Value Speicherung.
-- Extrem einfache API.
+- Extrem einfache API mit intelligenten Standardwerten.
 
 
 ## Schnellanleitung
@@ -19,3 +19,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose Key-Value-Datenbank für P
 
 ## SQLite-Unterstützung
 Nutzen Sie SQLite für extrem zuverlässige, persistente Datensätze.
+
+
+## Async API
+Unterstützt asynchrone Programmiermuster vollständig.
