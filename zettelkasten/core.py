@@ -19,4 +19,4 @@ class Zettelkasten:
         return False
 
     def keys(self):
-        return list(self._data.keys())
+        return list(self._data)
