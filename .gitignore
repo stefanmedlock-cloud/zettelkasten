@@ -14,3 +14,7 @@ zettelkasten.db
 *.log
 
 .vscode/
+
+dist/
+build/
+*.egg-info/
