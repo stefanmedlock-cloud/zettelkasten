@@ -3,7 +3,7 @@ class Zettelkasten:
     Hauptklasse für die Zettelkasten Key-Value-Datenbank.
     """
     def __init__(self):
-        self._data = {}
+        self._data = {}  # Interne Speicherstruktur
 
     def set(self, key: str, value):
         """Schreibt den Wert für einen Schlüssel in die DB."""
