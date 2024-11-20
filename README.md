@@ -14,7 +14,7 @@ Eine extrem leichtgewichtige, schnelle und serverlose, schnelle Key-Value-Datenb
 
 
 ## Systemanforderungen
-- Python 3.8 oder höher
+- Python >= 3.8 (getestet bis 3.12)
 
 
 ## SQLite-Unterstützung
