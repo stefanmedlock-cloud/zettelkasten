@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 class Zettelkasten:
     def __init__(self, filepath: str = None):
@@ -8,13 +9,20 @@ class Zettelkasten:
         if filepath and os.path.exists(filepath):
             self.load()
 
-    def set(self, key: str, value):
-        self._data[key] = value
+    def set(self, key: str, value, ttl: int = None):
+        expire_at = time.time() + ttl if ttl else None
+        self._data[key] = (value, expire_at)
         if self.filepath:
             self.save()
 
     def get(self, key: str, default=None):
-        return self._data.get(key, default)
+        if key not in self._data:
+            return default
+        value, expire_at = self._data[key]
+        if expire_at and time.time() > expire_at:
+            self.delete(key)
+            return default
+        return value
 
     def delete(self, key: str) -> bool:
         if key in self._data:
@@ -25,7 +33,11 @@ class Zettelkasten:
         return False
 
     def keys(self):
-        return list(self._data.keys())
+        current_keys = []
+        for key in list(self._data.keys()):
+            if self.get(key) is not None:
+                current_keys.append(key)
+        return current_keys
 
     def save(self):
         if not self.filepath:
