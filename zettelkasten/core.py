@@ -61,4 +61,3 @@ class Zettelkasten:
                     self._data = json.load(f)
             except json.JSONDecodeError:
                 self._data = {}
-
