@@ -58,6 +58,7 @@ class Zettelkasten:
                 return
             try:
                 with open(self.filepath, "r", encoding="utf-8") as f:
-                    self._data = json.load(f)
+                    loaded = json.load(f)
+                    self._data = {k: tuple(v) for k, v in loaded.items()}
             except json.JSONDecodeError:
                 self._data = {}
