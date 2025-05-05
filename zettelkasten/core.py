@@ -62,3 +62,4 @@ class Zettelkasten:
                     self._data = {k: tuple(v) for k, v in loaded.items()}
             except json.JSONDecodeError:
                 self._data = {}
+
