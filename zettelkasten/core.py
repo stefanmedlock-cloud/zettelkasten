@@ -2,13 +2,16 @@ import time
 from typing import Any, Optional
 from .backends.memory import MemoryBackend
 from .backends.json_file import JSONFileBackend
+from .backends.sqlite import SQLiteBackend
 
 class Zettelkasten:
-    def __init__(self, filepath: Optional[str] = None):
-        if filepath:
-            self.backend = JSONFileBackend(filepath)
-        else:
+    def __init__(self, filepath: Optional[str] = None, backend: str = "json"):
+        if not filepath:
             self.backend = MemoryBackend()
+        elif backend == "sqlite" or filepath.endswith(".db") or filepath.endswith(".sqlite"):
+            self.backend = SQLiteBackend(filepath)
+        else:
+            self.backend = JSONFileBackend(filepath)
 
     def set(self, key: str, value: Any, ttl: Optional[int] = None):
         expire_at = time.time() + ttl if ttl else None
@@ -23,4 +26,3 @@ class Zettelkasten:
 
     def keys(self):
         return self.backend.keys()
-
