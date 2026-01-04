@@ -1,13 +1,15 @@
 import os
 import json
 import time
+import zlib
 from typing import Any, Optional, List
 from threading import RLock
 from .base import BaseBackend
 
 class JSONFileBackend(BaseBackend):
-    def __init__(self, filepath: str):
+    def __init__(self, filepath: str, compress: bool = False):
         self.filepath = filepath
+        self.compress = compress
         self._data = {}
         self._lock = RLock()
         self._load()
@@ -15,15 +17,25 @@ class JSONFileBackend(BaseBackend):
     def _load(self):
         if os.path.exists(self.filepath):
             try:
-                with open(self.filepath, "r", encoding="utf-8") as f:
-                    loaded = json.load(f)
-                    self._data = {k: tuple(v) for k, v in loaded.items()}
-            except json.JSONDecodeError:
+                with open(self.filepath, "rb" if self.compress else "r") as f:
+                    raw_data = f.read()
+                    if self.compress and raw_data:
+                        raw_data = zlib.decompress(raw_data).decode("utf-8")
+                    if raw_data:
+                        loaded = json.loads(raw_data)
+                        self._data = {k: tuple(v) for k, v in loaded.items()}
+            except (json.JSONDecodeError, zlib.error):
                 self._data = {}
 
     def _save(self):
-        with open(self.filepath, "w", encoding="utf-8") as f:
-            json.dump(self._data, f)
+        serialized = json.dumps(self._data).encode("utf-8")
+        if self.compress:
+            serialized = zlib.compress(serialized)
+            with open(self.filepath, "wb") as f:
+                f.write(serialized)
+        else:
+            with open(self.filepath, "w") as f:
+                f.write(serialized.decode("utf-8"))
 
     def set(self, key: str, value: Any, expire_at: Optional[float] = None) -> None:
         with self._lock:
