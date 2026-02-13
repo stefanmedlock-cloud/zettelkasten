@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zettelkasten"
-version = "0.3.0"
+version = "0.1.0"
 authors = [
     { name="stefanmedlock-cloud", email="stefanmedlock-cloud@users.noreply.github.com" }
 ]
@@ -19,3 +19,6 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-asyncio"]
+
+[project.scripts]
+zettelkasten = "zettelkasten.cli:main"
