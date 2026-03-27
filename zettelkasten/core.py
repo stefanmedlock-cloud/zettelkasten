@@ -26,4 +26,3 @@ class Zettelkasten:
 
     def keys(self):
         return self.backend.keys()
-
