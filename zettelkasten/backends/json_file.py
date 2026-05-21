@@ -5,6 +5,8 @@ import zlib
 from typing import Any, Optional, List
 from threading import RLock
 from .base import BaseBackend
+from ..platform import get_file_lock
+from ..exceptions import StorageCorruptedError
 
 class JSONFileBackend(BaseBackend):
     def __init__(self, filepath: str, compress: bool = False):
@@ -12,10 +14,12 @@ class JSONFileBackend(BaseBackend):
         self.compress = compress
         self._data = {}
         self._lock = RLock()
+        self._file_lock = get_file_lock(filepath)
         self._load()
 
     def _load(self):
         if os.path.exists(self.filepath):
+            self._file_lock.acquire()
             try:
                 with open(self.filepath, "rb" if self.compress else "r") as f:
                     raw_data = f.read()
@@ -24,18 +28,24 @@ class JSONFileBackend(BaseBackend):
                     if raw_data:
                         loaded = json.loads(raw_data)
                         self._data = {k: tuple(v) for k, v in loaded.items()}
-            except (json.JSONDecodeError, zlib.error):
-                self._data = {}
+            except (json.JSONDecodeError, zlib.error) as e:
+                raise StorageCorruptedError(f"Speicherdatei {self.filepath} ist beschädigt: {e}")
+            finally:
+                self._file_lock.release()
 
     def _save(self):
-        serialized = json.dumps(self._data).encode("utf-8")
-        if self.compress:
-            serialized = zlib.compress(serialized)
-            with open(self.filepath, "wb") as f:
-                f.write(serialized)
-        else:
-            with open(self.filepath, "w") as f:
-                f.write(serialized.decode("utf-8"))
+        self._file_lock.acquire()
+        try:
+            serialized = json.dumps(self._data).encode("utf-8")
+            if self.compress:
+                serialized = zlib.compress(serialized)
+                with open(self.filepath, "wb") as f:
+                    f.write(serialized)
+            else:
+                with open(self.filepath, "w", encoding="utf-8") as f:
+                    f.write(serialized.decode("utf-8"))
+        finally:
+            self._file_lock.release()
 
     def set(self, key: str, value: Any, expire_at: Optional[float] = None) -> None:
         with self._lock:
