@@ -1,11 +1,15 @@
 import sys
 import argparse
+import asyncio
 from zettelkasten.core import Zettelkasten
+from zettelkasten.server import ZettelkastenServer
+from zettelkasten.web import ZettelkastenWebServer
 
 def main():
     parser = argparse.ArgumentParser(description="Zettelkasten Kommandozeilen-Schnittstelle")
-    parser.add_argument("--db", required=True, help="Pfad zur Datenbankdatei")
-    parser.add_argument("--backend", default="json", choices=["json", "sqlite"], help="Backend-Typ")
+    parser.add_argument("--db", help="Pfad zur Datenbankdatei")
+    parser.add_argument("--backend", default="json", choices=["json", "sqlite", "network"], help="Backend-Typ")
+    
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     set_parser = subparsers.add_parser("set", help="Setzt ein Key-Value Paar")
@@ -21,7 +25,30 @@ def main():
 
     subparsers.add_parser("keys", help="Listet alle Keys auf")
 
+    server_parser = subparsers.add_parser("run-server", help="Startet den Zettelkasten TCP-Datenbankserver")
+    server_parser.add_argument("--host", default="localhost", help="Server Hostname")
+    server_parser.add_argument("--port", type=int, default=8080, help="Server Port")
+    server_parser.add_argument("--web-port", type=int, help="Optionaler Web-Dashboard Port")
+
     args = parser.parse_args()
+
+    if args.command == "run-server":
+        server = ZettelkastenServer(args.host, args.port, args.db, backend=args.backend)
+        if args.web_port:
+            web_server = ZettelkastenWebServer(server.db, args.host, args.web_port)
+            async def run_both():
+                await asyncio.gather(server.start(), web_server.start())
+            try:
+                asyncio.run(run_both())
+            except KeyboardInterrupt:
+                print("Server gestoppt.")
+        else:
+            try:
+                asyncio.run(server.start())
+            except KeyboardInterrupt:
+                print("Server gestoppt.")
+        return
+
     db = Zettelkasten(args.db, backend=args.backend)
 
     if args.command == "set":
