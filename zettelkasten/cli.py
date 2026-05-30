@@ -29,11 +29,13 @@ def main():
     server_parser.add_argument("--host", default="localhost", help="Server Hostname")
     server_parser.add_argument("--port", type=int, default=8080, help="Server Port")
     server_parser.add_argument("--web-port", type=int, help="Optionaler Web-Dashboard Port")
+    server_parser.add_argument("--role", choices=["master", "replica"], help="Replikations-Rolle")
+    server_parser.add_argument("--master-addr", help="Adresse des Masters bei Replica-Rolle")
 
     args = parser.parse_args()
 
     if args.command == "run-server":
-        server = ZettelkastenServer(args.host, args.port, args.db, backend=args.backend)
+        server = ZettelkastenServer(args.host, args.port, args.db, backend=args.backend, role=args.role, master_addr=args.master_addr)
         if args.web_port:
             web_server = ZettelkastenWebServer(server.db, args.host, args.web_port)
             async def run_both():
