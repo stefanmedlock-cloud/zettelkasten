@@ -8,7 +8,7 @@ from .base import BaseBackend
 class SQLiteBackend(BaseBackend):
     def __init__(self, filepath: str):
         self.filepath = filepath
-        self._lock = RLock()
+        self._lock = RLock()  # Lock sichert exklusiven Schreib/Lese-Verbindungsaufbau
         with self._lock:
             conn = self._get_conn()
             conn.execute(
