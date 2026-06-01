@@ -5,6 +5,8 @@ except ImportError:
         def __init__(self, *args, **kwargs): pass
         def make_key(self, key, version=None): return key
 
+# Beispiel-Nutzung:
+# CACHES = { 'default': { 'BACKEND': 'zettelkasten.contrib.django.ZettelkastenCache', 'LOCATION': 'speicher.json' } }
 class ZettelkastenCache(BaseCache):
     def __init__(self, server, params):
         super().__init__(params)
