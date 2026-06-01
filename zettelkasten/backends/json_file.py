@@ -24,7 +24,7 @@ class JSONFileBackend(BaseBackend):
                 with open(self.filepath, "rb" if self.compress else "r") as f:
                     raw_data = f.read()
                     if self.compress and raw_data:
-                        raw_data = zlib.decompress(raw_data).decode("utf-8")
+                        raw_data = zlib.decompress(raw_data, zlib.MAX_WBITS | 32).decode("utf-8")  # Auto-Header-Erkennung
                     if raw_data:
                         loaded = json.loads(raw_data)
                         self._data = {k: tuple(v) for k, v in loaded.items()}
